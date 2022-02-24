@@ -752,7 +752,7 @@ export abstract class ReactStudioTemplateRenderer extends StudioTemplateRenderer
   }
 
   private buildCreateDataStorePredicateCall(type: string, name: string): Statement {
-    this.importCollection.addMappedImport(ImportValue.CREATE_DATA_STORE_PREDICATE);
+    this.importCollection.addMappedImport(ImportValue.USE_CREATE_DATA_STORE_PREDICATE);
     return factory.createVariableStatement(
       undefined,
       factory.createVariableDeclarationList(
@@ -762,7 +762,7 @@ export abstract class ReactStudioTemplateRenderer extends StudioTemplateRenderer
             undefined,
             undefined,
             factory.createCallExpression(
-              factory.createIdentifier('createDataStorePredicate'),
+              factory.createIdentifier('useCreateDataStorePredicate'),
               [factory.createTypeReferenceNode(factory.createIdentifier(type), undefined)],
               [factory.createIdentifier(this.getFilterObjName(name))],
             ),

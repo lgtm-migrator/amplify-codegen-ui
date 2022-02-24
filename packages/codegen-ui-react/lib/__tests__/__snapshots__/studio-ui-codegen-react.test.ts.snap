@@ -341,8 +341,8 @@ Object {
 import React from \\"react\\";
 import {
   EscapeHatchProps,
-  createDataStorePredicate,
   getOverrideProps,
+  useCreateDataStorePredicate,
   useDataStoreBinding,
   useStateMutationAction,
 } from \\"@aws-amplify/ui-react/internal\\";
@@ -365,7 +365,7 @@ export default function ConditionalInMutation(
     operand: \\"Johnny\\",
     operator: \\"eq\\",
   };
-  const userFilter = createDataStorePredicate<User>(userFilterObj);
+  const userFilter = useCreateDataStorePredicate<User>(userFilterObj);
   const userDataStore = useDataStoreBinding({
     type: \\"collection\\",
     model: User,
@@ -542,8 +542,8 @@ exports[`amplify render tests collection should render collection with data bind
 import React from \\"react\\";
 import {
   EscapeHatchProps,
-  createDataStorePredicate,
   getOverrideProps,
+  useCreateDataStorePredicate,
   useDataStoreBinding,
 } from \\"@aws-amplify/ui-react/internal\\";
 import { User, UserPreferences } from \\"../models\\";
@@ -583,7 +583,8 @@ export default function CollectionOfCustomButtons(
       { field: \\"lastName\\", operand: \\"L\\", operator: \\"beginsWith\\" },
     ],
   };
-  const buttonUserFilter = createDataStorePredicate<User>(buttonUserFilterObj);
+  const buttonUserFilter =
+    useCreateDataStorePredicate<User>(buttonUserFilterObj);
   const buttonUser =
     items !== undefined
       ? items
@@ -598,7 +599,7 @@ export default function CollectionOfCustomButtons(
     operator: \\"eq\\",
   };
   const buttonColorFilter =
-    createDataStorePredicate<UserPreferences>(buttonColorFilterObj);
+    useCreateDataStorePredicate<UserPreferences>(buttonColorFilterObj);
   const buttonColorDataStore = useDataStoreBinding({
     type: \\"collection\\",
     model: UserPreferences,
@@ -643,8 +644,8 @@ Object {
 import React from \\"react\\";
 import {
   EscapeHatchProps,
-  createDataStorePredicate,
   getOverrideProps,
+  useCreateDataStorePredicate,
   useDataStoreBinding,
 } from \\"@aws-amplify/ui-react/internal\\";
 import { SortDirection, SortPredicate } from \\"@aws-amplify/datastore\\";
@@ -685,7 +686,8 @@ export default function CollectionOfCustomButtons(
       { field: \\"lastName\\", operand: \\"L\\", operator: \\"beginsWith\\" },
     ],
   };
-  const buttonUserFilter = createDataStorePredicate<User>(buttonUserFilterObj);
+  const buttonUserFilter =
+    useCreateDataStorePredicate<User>(buttonUserFilterObj);
   const buttonUserPagination = {
     sort: (s: SortPredicate<User>) =>
       s.firstName(SortDirection.ASCENDING).lastName(SortDirection.DESCENDING),
@@ -705,7 +707,7 @@ export default function CollectionOfCustomButtons(
     operator: \\"eq\\",
   };
   const buttonColorFilter =
-    createDataStorePredicate<UserPreferences>(buttonColorFilterObj);
+    useCreateDataStorePredicate<UserPreferences>(buttonColorFilterObj);
   const buttonColorDataStore = useDataStoreBinding({
     type: \\"collection\\",
     model: UserPreferences,
@@ -752,8 +754,8 @@ exports[`amplify render tests collection should render collection with data bind
 import React from \\"react\\";
 import {
   EscapeHatchProps,
-  createDataStorePredicate,
   getOverrideProps,
+  useCreateDataStorePredicate,
   useDataStoreBinding,
 } from \\"@aws-amplify/ui-react/internal\\";
 import { User, UserPreferences } from \\"../models\\";
@@ -793,7 +795,7 @@ export default function CollectionOfCustomButtons(
       { field: \\"lastName\\", operand: \\"L\\", operator: \\"beginsWith\\" },
     ],
   };
-  const itemsFilter = createDataStorePredicate<User>(itemsFilterObj);
+  const itemsFilter = useCreateDataStorePredicate<User>(itemsFilterObj);
   const items =
     itemsProp !== undefined
       ? itemsProp
@@ -808,7 +810,7 @@ export default function CollectionOfCustomButtons(
     operator: \\"eq\\",
   };
   const buttonColorFilter =
-    createDataStorePredicate<UserPreferences>(buttonColorFilterObj);
+    useCreateDataStorePredicate<UserPreferences>(buttonColorFilterObj);
   const buttonColorDataStore = useDataStoreBinding({
     type: \\"collection\\",
     model: UserPreferences,
@@ -5737,9 +5739,9 @@ Object {
 import React from \\"react\\";
 import {
   EscapeHatchProps,
-  createDataStorePredicate,
   getOverrideProps,
   useAuth,
+  useCreateDataStorePredicate,
   useDataStoreBinding,
   useStateMutationAction,
 } from \\"@aws-amplify/ui-react/internal\\";
@@ -5771,7 +5773,7 @@ export default function InitialValueBindings(
     operand: \\"Johnny\\",
     operator: \\"eq\\",
   };
-  const userFilter = createDataStorePredicate<User>(userFilterObj);
+  const userFilter = useCreateDataStorePredicate<User>(userFilterObj);
   const userDataStore = useDataStoreBinding({
     type: \\"collection\\",
     model: User,
