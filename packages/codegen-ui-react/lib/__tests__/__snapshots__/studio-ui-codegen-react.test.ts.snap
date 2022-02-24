@@ -688,10 +688,11 @@ export default function CollectionOfCustomButtons(
   };
   const buttonUserFilter =
     useCreateDataStorePredicate<User>(buttonUserFilterObj);
-  const buttonUserPagination = {
-    sort: (s: SortPredicate<User>) =>
-      s.firstName(SortDirection.ASCENDING).lastName(SortDirection.DESCENDING),
-  };
+  const buttonUserPaginationSort = useCallback(
+    (s) => (s: SortPredicate<User>) =>
+      s.firstName(SortDirection.ASCENDING).lastName(SortDirection.DESCENDING)
+  );
+  const buttonUserPagination = { sort: buttonUserPaginationSort };
   const buttonUser =
     items !== undefined
       ? items

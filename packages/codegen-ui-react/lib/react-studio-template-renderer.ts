@@ -727,7 +727,7 @@ export abstract class ReactStudioTemplateRenderer extends StudioTemplateRenderer
         if (sort) {
           this.importCollection.addMappedImport(ImportValue.SORT_DIRECTION);
           this.importCollection.addMappedImport(ImportValue.SORT_PREDICATE);
-          statements.push(this.buildPaginationStatement(propName, model, sort));
+          statements.push(...this.buildPaginationStatement(propName, model, sort));
         }
         this.importCollection.addImport(ImportSource.LOCAL_MODELS, model);
         statements.push(
@@ -888,12 +888,14 @@ export abstract class ReactStudioTemplateRenderer extends StudioTemplateRenderer
   }
 
   /**
-   * const buttonUserSort = {
-   *   sort: (s: SortPredicate<User>) => s.firstName('DESCENDING').lastName('ASCENDING')
-   * }
+   *
+   * const buttonUserPaginationSort = useCallback((s) => s.lastName(SortDirection.ASCENDING));
+   * const [buttonUserPagination] = useState({
+   *   sort: buttonUserPaginationSort,
+   * });
    */
-  private buildPaginationStatement(propName: string, model: string, sort?: StudioComponentSort[]): VariableStatement {
-    return factory.createVariableStatement(
+  private buildPaginationStatement(propName: string, model: string, sort?: StudioComponentSort[]): VariableStatement[] {
+    const paginationObject = factory.createVariableStatement(
       undefined,
       factory.createVariableDeclarationList(
         [
@@ -907,7 +909,7 @@ export abstract class ReactStudioTemplateRenderer extends StudioTemplateRenderer
                   ? [
                       factory.createPropertyAssignment(
                         factory.createIdentifier('sort'),
-                        this.buildSortFunction(model, sort),
+                        factory.createIdentifier(`${this.getPaginationName(propName)}Sort`),
                       ),
                     ]
                   : [],
@@ -918,6 +920,44 @@ export abstract class ReactStudioTemplateRenderer extends StudioTemplateRenderer
         ts.NodeFlags.Const,
       ),
     );
+    if (sort) {
+      const sortFunction = factory.createVariableStatement(
+        undefined,
+        factory.createVariableDeclarationList(
+          [
+            factory.createVariableDeclaration(
+              factory.createIdentifier(`${this.getPaginationName(propName)}Sort`),
+              undefined,
+              undefined,
+              factory.createCallExpression(factory.createIdentifier('useCallback'), undefined, [
+                factory.createArrowFunction(
+                  undefined,
+                  undefined,
+                  [
+                    factory.createParameterDeclaration(
+                      undefined,
+                      undefined,
+                      undefined,
+                      factory.createIdentifier('s'),
+                      undefined,
+                      undefined,
+                      undefined,
+                    ),
+                  ],
+                  undefined,
+                  factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+                  this.buildSortFunction(model, sort),
+                ),
+              ]),
+            ),
+          ],
+          ts.NodeFlags.Const,
+        ),
+      );
+
+      return [sortFunction, paginationObject];
+    }
+    return [paginationObject];
   }
 
   /**
